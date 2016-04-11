@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>localhost的原理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="刚开始一直以为Localhost和127.0.0.1是一样的功能的，如果你没有仔细去分析，还真以为这是相同的两款软件：
+  虽说效果看起来是一样的，都是本地IP，但实际上区别很大：Localhost的意思是本地服务器，而127.0.0.1是本机地址，他们的关系是通过操作系统中的hosts文件，将Localhost解析为127.0.0.1。而实际工作中，Localhost是不经过网卡传输的，所以，它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="localhost的原理">
+<meta property="og:url" content="http://yoursite.com/2016/04/11/localhost的原理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="刚开始一直以为Localhost和127.0.0.1是一样的功能的，如果你没有仔细去分析，还真以为这是相同的两款软件：
+  虽说效果看起来是一样的，都是本地IP，但实际上区别很大：Localhost的意思是本地服务器，而127.0.0.1是本机地址，他们的关系是通过操作系统中的hosts文件，将Localhost解析为127.0.0.1。而实际工作中，Localhost是不经过网卡传输的，所以，它">
+<meta property="og:updated_time" content="2016-04-11T02:49:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="localhost的原理">
+<meta name="twitter:description" content="刚开始一直以为Localhost和127.0.0.1是一样的功能的，如果你没有仔细去分析，还真以为这是相同的两款软件：
+  虽说效果看起来是一样的，都是本地IP，但实际上区别很大：Localhost的意思是本地服务器，而127.0.0.1是本机地址，他们的关系是通过操作系统中的hosts文件，将Localhost解析为127.0.0.1。而实际工作中，Localhost是不经过网卡传输的，所以，它">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-localhost的原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/11/localhost的原理/" class="article-date">
+  <time datetime="2016-04-11T02:36:11.000Z" itemprop="datePublished">2016-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      localhost的原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>刚开始一直以为Localhost和127.0.0.1是一样的功能的，如果你没有仔细去分析，还真以为这是相同的两款软件：</p>
+<p>  虽说效果看起来是一样的，都是本地IP，但实际上区别很大：Localhost的意思是本地服务器，而127.0.0.1是本机地址，他们的关系是通过操作系统中的hosts文件，将Localhost解析为127.0.0.1。而实际工作中，Localhost是不经过网卡传输的，所以，它不受网络防火墙和与网卡相关的种种限制；而127.0.0.1则要通过网卡传输数据，是必须依赖网卡的。这一点是它们最大的区别。<br> 一般设置程序时，本地服务用Localhost是最好的，Localhost不会解析成IP，也不会占用网卡、网络资源。有时候用Localhost可以，但用127.0.0.1就不可以的情况就是在于此。</p>
+<p>localhost与127.0.0.1的概念和工作原理之不同</p>
+<p>要比较两个东西有什么不同，首先要弄清两者的概念。所以，我们从概念开始。</p>
+<p>localhost：也叫local ，正确的解释是：本地服务器<br>127.0.0.1：在windows等系统的正确解释是：本机地址(本机服务器)</p>
+<p>一个是“本地”，一个是“本机”。不过从这两个词来看，还是不能比较两者的区别。我们再看看他们的工作原理。</p>
+<p>localhot：是不经网卡传输的，它不受网络防火墙和网卡相关的的限制。<br>127.0.0.1：是通过网卡传输的，它依赖网卡，并受到网络防火墙和网卡相关的限制。</p>
+<p>通过上述概念和工作原理的比较，我想现在大家都心里有谱了吧，知道localhost与127.0.0.1有什么不同了。文中开头提到的localhost不能访问但127.0.0.1可以访问的问题，究其原因，很可能是localhost访问时，系统带的本机当前用户的权限去访问，而用ip的时候，等于本机是通过网络再去访问本机，可能涉及到网络用户的权限。</p>
+<p>另外，我们现在也应该明白了一个道理，那就是一般设置程序时本地服务用localhost是最好的，localhost不会解析成IP，也不会占用网卡、网络资源。</p>
+<p><a href="https://imququ.com/post/web-proxy.html" target="_blank" rel="external">https://imququ.com/post/web-proxy.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/11/localhost的原理/" data-id="cimvfntne0000rn63qfutc9c4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/11/职业中的马太效应/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/07/reset-mysqlp/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重置mysql密码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/11/职业中的马太效应/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/11/localhost的原理/">localhost的原理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/07/reset-mysqlp/">重置mysql密码</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
